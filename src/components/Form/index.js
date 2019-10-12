@@ -16,6 +16,7 @@ export default function Form(props) {
 
 	const handleSubmit = event => {
 		event.preventDefault();
+		props.history();
 	};
 
 	const renderStep1 = () => {
@@ -76,12 +77,12 @@ export default function Form(props) {
 						address={address}
 						onChange={address => {
 							setAddress(address);
-							setRoofAccess();
-							setStep(0);
 						}}
 						onSelect={address => {
 							setAddress(address);
-							setStep(1);
+							if (step < 1) {
+								setStep(1);
+							}
 						}}
 					/>
 					{renderStep1()}
