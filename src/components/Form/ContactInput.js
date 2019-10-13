@@ -3,7 +3,7 @@ import Label from "../Label";
 
 export default function ContactInput(props) {
   const { contact, onChange } = props;
-  const { name, email, phone, apartment } = contact;
+  const { name = "", email = "", phone = "", apartment = "" } = contact;
   return (
     <div className="mv4">
       <h2 className="fw5 f5">How can we reach you?</h2>

@@ -3,7 +3,7 @@ import AddressInput from "./AddressInput";
 import RoofInput from "./RoofInput";
 import ContactInput from "./ContactInput";
 
-export default function Form(props) {
+export default function Form({ history }) {
 	const [step, setStep] = useState(0);
 	const [address, setAddress] = useState("");
 	const [roofAccess, setRoofAccess] = useState();
@@ -14,9 +14,30 @@ export default function Form(props) {
 		setRoofAccess();
 	}
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault();
-		props.history();
+		const response = await fetch("/requests", {
+			method: "POST",
+			body: JSON.stringify({
+				address,
+				roofAccess,
+				...contact
+			})
+		});
+		const request = await response.json();
+
+		const buildingResponse = await fetch(
+			`/buildings/${request.building_id}`
+		);
+		const building = await buildingResponse.json();
+		const activeNodes = building.nodes.filter(
+			node => node.status === "active"
+		);
+		if (activeNodes.length) {
+			history.push(`/schedule?id=${request.id}`);
+		} else {
+			history.push(`/request?id=${request.id}`);
+		}
 	};
 
 	const renderStep1 = () => {
@@ -38,7 +59,7 @@ export default function Form(props) {
 		const complete = name && email && phone;
 		const submitActive = "bg-red hover-bg-dark-red pointer";
 		const submitDisabled = "bg-moon-gray";
-		const submitButtonClass = `white fr f5 mt3 pa3 bn br2 fw6 ${
+		const submitButtonClass = `white fr f5 pa3 bn br2 fw6 ${
 			complete ? submitActive : submitDisabled
 		}`;
 		return (
@@ -50,6 +71,19 @@ export default function Form(props) {
 						setStep(2);
 					}}
 				/>
+				<div className="mv4">
+					<input required type="checkbox" value="ncl" />
+					<label htmlFor="ncl" className="ml2 mid-gray">
+						I agree to the{" "}
+						<a
+							className="blue no-underline"
+							href="https://www.nycmesh.net/ncl.pdf"
+							target="_"
+						>
+							Network Commons License
+						</a>
+					</label>
+				</div>
 				<input
 					className={submitButtonClass}
 					type="Submit"
@@ -65,7 +99,8 @@ export default function Form(props) {
 				<div>
 					<h1 className="fw7 f3">Get connected</h1>
 					<p className="lh-copy dark-gray">
-						Let's see if NYC Mesh is available in your building.
+						Please ask your neighbors if they would like to join
+						too!
 					</p>
 				</div>
 				<form
