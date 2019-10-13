@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import Label from "./Label";
+import React from "react";
 
-export default function Request({ match }) {
+export default function Panoramas({ match }) {
 	return (
 		<div className="flex justify-center sans-serif ph3">
 			<div className="measure w-100 pt3 pb6-ns pb5">
@@ -39,15 +38,27 @@ export default function Request({ match }) {
 						</p>
 
 						<p className="fw6">
-							Please send us panoramas by replying to the
-							confirmation email we just sent you.
+							Please submit your panoramas by replying to the
+							confirmation email we just sent.
 						</p>
 
 						<p>Here are some examples:</p>
 
 						<div>
-							<img src="https://node-db.netlify.com/panoramas/303.jpg" />
-							<img src="https://node-db.netlify.com/panoramas/303a.jpg" />
+							<div
+								className="h4 bg-red cover bg-center"
+								style={{
+									backgroundImage:
+										"url('https://node-db.netlify.com/panoramas/303.jpg')"
+								}}
+							/>
+							<div
+								className="h4 bg-red cover bg-center mt3"
+								style={{
+									backgroundImage:
+										"url('https://node-db.netlify.com/panoramas/303a.jpg')"
+								}}
+							/>
 						</div>
 
 						<p>

@@ -8,6 +8,7 @@ export default function Form({ history }) {
 	const [address, setAddress] = useState("");
 	const [roofAccess, setRoofAccess] = useState();
 	const [contact, setContact] = useState({});
+	const [ncl, setNcl] = useState(false);
 
 	if (!address && step > 0) {
 		setStep(0);
@@ -16,27 +17,34 @@ export default function Form({ history }) {
 
 	const handleSubmit = async event => {
 		event.preventDefault();
-		const response = await fetch("/requests", {
-			method: "POST",
-			body: JSON.stringify({
-				address,
-				roofAccess,
-				...contact
-			})
-		});
-		const request = await response.json();
 
-		const buildingResponse = await fetch(
-			`/buildings/${request.building_id}`
-		);
-		const building = await buildingResponse.json();
-		const activeNodes = building.nodes.filter(
-			node => node.status === "active"
-		);
-		if (activeNodes.length) {
-			history.push(`/schedule?id=${request.id}`);
-		} else {
-			history.push(`/request?id=${request.id}`);
+		try {
+			const response = await fetch(
+				`${process.env.REACT_APP_API_ROOT}/requests`,
+				{
+					method: "POST",
+					body: JSON.stringify({
+						address,
+						roofAccess,
+						...contact
+					})
+				}
+			);
+			const request = await response.json();
+			const buildingResponse = await fetch(
+				`/buildings/${request.building_id}`
+			);
+			const building = await buildingResponse.json();
+			const activeNodes = building.nodes.filter(
+				node => node.status === "active"
+			);
+			if (activeNodes.length) {
+				history.push(`/schedule?id=${request.id}`);
+			} else {
+				history.push(`/request?id=${request.id}`);
+			}
+		} catch (error) {
+			history.push("/error");
 		}
 	};
 
@@ -56,7 +64,7 @@ export default function Form({ history }) {
 	const renderStep2 = () => {
 		if (step < 2) return null;
 		const { name, email, phone } = contact;
-		const complete = name && email && phone;
+		const complete = name && email && phone && ncl;
 		const submitActive = "bg-red hover-bg-dark-red pointer";
 		const submitDisabled = "bg-moon-gray";
 		const submitButtonClass = `white fr f5 pa3 bn br2 fw6 ${
@@ -72,7 +80,13 @@ export default function Form({ history }) {
 					}}
 				/>
 				<div className="mv4">
-					<input required type="checkbox" value="ncl" />
+					<input
+						required
+						name="ncl"
+						type="checkbox"
+						checked={ncl}
+						onChange={event => setNcl(event.target.checked)}
+					/>
 					<label htmlFor="ncl" className="ml2 mid-gray">
 						I agree to the{" "}
 						<a
@@ -88,6 +102,7 @@ export default function Form({ history }) {
 					className={submitButtonClass}
 					type="Submit"
 					value="Check availablility"
+					readOnly
 				/>
 			</div>
 		);

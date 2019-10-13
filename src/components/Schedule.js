@@ -1,5 +1,4 @@
 import React from "react";
-import Label from "./Label";
 
 export default function Request({ match }) {
 	return (
@@ -59,6 +58,7 @@ export default function Request({ match }) {
 
 					<div className="mt4">
 						<iframe
+							title="Calendar"
 							src="https://app.acuityscheduling.com/schedule.php?owner=13961026"
 							width="100%"
 							height="800"
