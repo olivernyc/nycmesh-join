@@ -46,14 +46,14 @@ export default function Panoramas({ match }) {
 
 						<div>
 							<div
-								className="h4 bg-red cover bg-center"
+								className="h4 bg-near-white cover bg-center"
 								style={{
 									backgroundImage:
 										"url('https://node-db.netlify.com/panoramas/303.jpg')"
 								}}
 							/>
 							<div
-								className="h4 bg-red cover bg-center mt3"
+								className="h4 bg-near-white cover bg-center mt3"
 								style={{
 									backgroundImage:
 										"url('https://node-db.netlify.com/panoramas/303a.jpg')"

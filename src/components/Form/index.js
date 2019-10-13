@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createRequest, fetchBuilding } from "../../api";
 import AddressInput from "./AddressInput";
 import RoofInput from "./RoofInput";
 import ContactInput from "./ContactInput";
@@ -19,29 +20,21 @@ export default function Form({ history }) {
 		event.preventDefault();
 
 		try {
-			const response = await fetch(
-				`${process.env.REACT_APP_API_ROOT}/requests`,
-				{
-					method: "POST",
-					body: JSON.stringify({
-						address,
-						roofAccess,
-						...contact
-					})
-				}
-			);
-			const request = await response.json();
-			const buildingResponse = await fetch(
-				`/buildings/${request.building_id}`
-			);
-			const building = await buildingResponse.json();
-			const activeNodes = building.nodes.filter(
-				node => node.status === "active"
-			);
+			const requestInfo = {
+				address,
+				roofAccess,
+				...contact
+			};
+
+			const request = await createRequest(requestInfo);
+			const building = await fetchBuilding(request.building_id);
+
+			const isActive = node => node.status === "active";
+			const activeNodes = building.nodes.filter(isActive);
 			if (activeNodes.length) {
 				history.push(`/schedule?id=${request.id}`);
 			} else {
-				history.push(`/request?id=${request.id}`);
+				history.push(`/panoramas?id=${request.id}`);
 			}
 		} catch (error) {
 			history.push("/error");
