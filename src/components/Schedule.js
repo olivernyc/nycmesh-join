@@ -28,8 +28,8 @@ export default function Request({ location }) {
 					<p>You can schedule a volunteer-led install below.</p>
 					<p>
 						When your install is completed, please choose an install
-						rate. If we are not able to connect you, there is no
-						charge.
+						rate. If we are not able to connect you, there will be
+						no charge.
 						<div className="flex flex-row-ns flex-column mt3">
 							<div className="bg-near-white pa3 mr2-ns mb0-ns mb3 w-50-ns">
 								<span className="fw6">Full Cost - $290</span>

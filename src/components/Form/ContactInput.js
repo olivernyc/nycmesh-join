@@ -6,11 +6,6 @@ export default function ContactInput(props) {
   const { name = "", email = "", phone = "", apartment = "" } = contact;
   return (
     <div className="mv4">
-      <h2 className="fw5 f5">How can we reach you?</h2>
-      <p className="lh-copy mid-gray">
-        If your building is not in range, we'll get in touch when our network
-        expands to your neighborhood.
-      </p>
       <div className="flex flex-wrap">
         <div className="w-50-ns w-100 pr2-ns mt0-ns mt3">
           <Label label="Full name" htmlFor="name" />

@@ -58,6 +58,11 @@ export default function Form({ history }) {
 		}`;
 		return (
 			<div>
+				<h2 className="fw5 f5">How can we reach you?</h2>
+				<p className="lh-copy mid-gray">
+					If your building is not in range, we'll get in touch when
+					our network expands to your neighborhood.
+				</p>
 				<ContactInput
 					contact={{ name, email, phone, apartment }}
 					onChange={(key, value) => {

@@ -72,6 +72,10 @@ a {
 	text-indent: -2rem;
 }
 
+div:last-child > .usa-radio__label {
+	margin-bottom: 0;
+}
+
 .usa-radio__label::before {
 	background: white;
 	content: "\a0";
