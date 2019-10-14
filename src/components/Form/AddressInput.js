@@ -78,7 +78,6 @@ export default function AddressInput(props) {
           const {
             borough,
             housenumber,
-            label,
             locality,
             name,
             pad_bbl,
@@ -86,16 +85,20 @@ export default function AddressInput(props) {
             postalcode,
             street
           } = properties;
+          const address = `${titleCase(
+            name
+          )}, ${borough}, ${locality} ${postalcode}`;
+
           onSelect({
-            address: `${titleCase(
-              name
-            )}, ${borough}, ${locality} ${postalcode}`,
+            address,
             borough,
             housenumber,
             lat,
             lng,
             postalcode,
-            street
+            street,
+            bin: pad_bin,
+            bbl: pad_bbl
           });
         }}
       />

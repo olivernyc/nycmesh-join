@@ -1,21 +1,7 @@
 import React from "react";
-import qs from "qs";
 import Progress from "./Progress";
 
 export default function Request({ location }) {
-	const query = new URLSearchParams(location.search);
-	const params = qs.stringify({
-		// firstName: "",
-		// lastName: "",
-		// email: "",
-		// phone: "123",
-		// "field:4683406": "", // Address
-		"field:4661367": query.id,
-		appointmentType: 3633316,
-		owner: 13961026
-	});
-	const calendarURL = `https://app.acuityscheduling.com/schedule.php?${params}`;
-
 	return (
 		<div className="flex flex-column items-center justify-center sans-serif ph3 pb5">
 			<div className="measure w-100 pt3">

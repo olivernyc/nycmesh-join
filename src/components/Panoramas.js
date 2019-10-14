@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Progress from "./Progress";
-import Label from "./Label";
 
 export default function Request({ match }) {
 	return (
 		<div className="flex justify-center sans-serif ph3">
-			<div className="measure w-100 pt3 pb6-ns pb5">
+			<div className="measure w-100 pt3 pb5">
 				<Progress step={2} />
 
 				<div className="dark-gray">
