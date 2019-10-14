@@ -32,10 +32,7 @@ export default function AddressInput(props) {
         }}
         value={address}
         items={suggestions[address] || []}
-        getItemValue={item => {
-          const { name, borough, locality, postalcode } = item.properties;
-          return `${titleCase(name)}, ${borough}, ${locality} ${postalcode}`;
-        }}
+        getItemValue={item => item.properties.id}
         wrapperStyle={{ width: "100%" }}
         menuStyle={{
           boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
@@ -73,9 +70,33 @@ export default function AddressInput(props) {
           );
         }}
         onChange={({ target }) => onChange(target.value)}
-        onSelect={event => {
-          onSelect(event);
+        onSelect={(value, { geometry, properties }) => {
           input.blur();
+
+          const { coordinates } = geometry;
+          const [lat, lng] = coordinates;
+          const {
+            borough,
+            housenumber,
+            label,
+            locality,
+            name,
+            pad_bbl,
+            pad_bin,
+            postalcode,
+            street
+          } = properties;
+          onSelect({
+            address: `${titleCase(
+              name
+            )}, ${borough}, ${locality} ${postalcode}`,
+            borough,
+            housenumber,
+            lat,
+            lng,
+            postalcode,
+            street
+          });
         }}
       />
     </div>

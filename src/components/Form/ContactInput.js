@@ -19,9 +19,7 @@ export default function ContactInput(props) {
             className="db w-100 pa2 border-box ba b--gray mt2"
             required={true}
             value={name}
-            onChange={({ target }) =>
-              onChange({ ...contact, name: target.value })
-            }
+            onChange={({ target }) => onChange("name", target.value)}
           />
         </div>
         <div className="w-50-ns w-100 pl2-ns mt0-ns mt3">
@@ -33,9 +31,7 @@ export default function ContactInput(props) {
             id="apartment"
             className="db w-100 pa2 border-box ba b--gray mt2"
             value={apartment}
-            onChange={({ target }) =>
-              onChange({ ...contact, apartment: target.value })
-            }
+            onChange={({ target }) => onChange("apartment", target.value)}
           />
         </div>
         <div className="w-50-ns w-100 pr2-ns mt3">
@@ -46,9 +42,7 @@ export default function ContactInput(props) {
             type="email"
             required={true}
             value={email}
-            onChange={({ target }) =>
-              onChange({ ...contact, email: target.value })
-            }
+            onChange={({ target }) => onChange("email", target.value)}
           />
         </div>
         <div className="w-50-ns w-100 pl2-ns mt3">
@@ -59,9 +53,7 @@ export default function ContactInput(props) {
             type="tel"
             required={true}
             value={phone}
-            onChange={({ target }) =>
-              onChange({ ...contact, phone: target.value })
-            }
+            onChange={({ target }) => onChange("phone", target.value)}
           />
         </div>
       </div>

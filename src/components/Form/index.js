@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import { createRequest, fetchBuilding } from "../../api";
+import Progress from "../Progress";
 import AddressInput from "./AddressInput";
 import RoofInput from "./RoofInput";
 import ContactInput from "./ContactInput";
 
 export default function Form({ history }) {
 	const [step, setStep] = useState(0);
-	const [address, setAddress] = useState("");
-	const [roofAccess, setRoofAccess] = useState();
-	const [contact, setContact] = useState({});
-	const [ncl, setNcl] = useState(false);
+	const [formValues, setFormValues] = useState({});
 
-	if (!address && step > 0) {
+	if (step > 0 && !formValues.address) {
 		setStep(0);
-		setRoofAccess();
+		setFormValues({});
 	}
 
 	const handleSubmit = async event => {
 		event.preventDefault();
 
 		try {
-			const requestInfo = {
-				address,
-				roofAccess,
-				...contact
-			};
-
-			const request = await createRequest(requestInfo);
+			const request = await createRequest(formValues);
 			const building = await fetchBuilding(request.building_id);
 
 			const isActive = node => node.status === "active";
@@ -43,11 +35,12 @@ export default function Form({ history }) {
 
 	const renderStep1 = () => {
 		if (step < 1) return null;
+		const { roofAccess } = formValues;
 		return (
 			<RoofInput
 				roofAccess={roofAccess}
 				onChange={({ target }) => {
-					setRoofAccess(target.value);
+					setFormValues({ ...formValues, roofAccess: target.value });
 					setStep(2);
 				}}
 			/>
@@ -56,7 +49,7 @@ export default function Form({ history }) {
 
 	const renderStep2 = () => {
 		if (step < 2) return null;
-		const { name, email, phone } = contact;
+		const { name, email, phone, apartment, ncl = false } = formValues;
 		const complete = name && email && phone && ncl;
 		const submitActive = "bg-red hover-bg-dark-red pointer";
 		const submitDisabled = "bg-moon-gray";
@@ -66,9 +59,9 @@ export default function Form({ history }) {
 		return (
 			<div>
 				<ContactInput
-					contact={contact}
-					onChange={contact => {
-						setContact(contact);
+					contact={{ name, email, phone, apartment }}
+					onChange={(key, value) => {
+						setFormValues({ ...formValues, [key]: value });
 						setStep(2);
 					}}
 				/>
@@ -78,7 +71,12 @@ export default function Form({ history }) {
 						name="ncl"
 						type="checkbox"
 						checked={ncl}
-						onChange={event => setNcl(event.target.checked)}
+						onChange={event =>
+							setFormValues({
+								...formValues,
+								ncl: event.target.checked
+							})
+						}
 					/>
 					<label htmlFor="ncl" className="ml2 mid-gray">
 						I agree to the{" "}
@@ -86,6 +84,7 @@ export default function Form({ history }) {
 							className="blue no-underline"
 							href="https://www.nycmesh.net/ncl.pdf"
 							target="_"
+							checked={ncl}
 						>
 							Network Commons License
 						</a>
@@ -94,7 +93,7 @@ export default function Form({ history }) {
 				<input
 					className={submitButtonClass}
 					type="Submit"
-					value="Check availablility"
+					value="Submit"
 					readOnly
 				/>
 			</div>
@@ -104,6 +103,7 @@ export default function Form({ history }) {
 	return (
 		<div className="flex justify-center sans-serif ph3">
 			<div className="measure w-100 pt3 pb6-ns pb5">
+				<Progress step={1} />
 				<div>
 					<h1 className="fw7 f3">Get connected</h1>
 					<p className="lh-copy dark-gray">
@@ -117,12 +117,12 @@ export default function Form({ history }) {
 					onSubmit={handleSubmit}
 				>
 					<AddressInput
-						address={address}
+						address={formValues.address}
 						onChange={address => {
-							setAddress(address);
+							setFormValues({ ...formValues, address });
 						}}
-						onSelect={address => {
-							setAddress(address);
+						onSelect={addressValues => {
+							setFormValues({ ...formValues, ...addressValues });
 							if (step < 1) {
 								setStep(1);
 							}

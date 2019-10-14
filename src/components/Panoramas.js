@@ -1,29 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Progress from "./Progress";
+import Label from "./Label";
 
-export default function Panoramas({ match }) {
+export default function Request({ match }) {
 	return (
 		<div className="flex justify-center sans-serif ph3">
 			<div className="measure w-100 pt3 pb6-ns pb5">
-				<div className="flex items-center justify-around-ns justify-start mb4 mt3">
-					<div className="flex flex-column items-center-ns pr0-ns pr4 o-50">
-						<div className="h2 w2 f5 fw6 mb2 flex items-center justify-center bg-light-yellow br-pill">
-							1
-						</div>
-						Building Info
-					</div>
-					<div className="flex flex-column items-center-ns pr0-ns pr4 fw6">
-						<div className="h2 w2 f5 fw6 mb2 flex items-center justify-center bg-light-yellow br-pill">
-							2
-						</div>
-						Panorama Photos
-					</div>
-					<div className="flex flex-column items-center-ns pr0-ns pr4 o-50">
-						<div className="h2 w2 f5 fw6 mb2 flex items-center justify-center bg-light-yellow br-pill">
-							3
-						</div>
-						Schedule Install
-					</div>
-				</div>
+				<Progress step={2} />
 
 				<div className="dark-gray">
 					<h1 className="fw7 f3 black">
@@ -38,22 +21,29 @@ export default function Panoramas({ match }) {
 						</p>
 
 						<p className="fw6">
-							Please submit your panoramas by replying to the
-							confirmation email we just sent.
+							Please send us panoramas by replying to the
+							confirmation email we just sent you.
 						</p>
+
+						{
+							// <div className="pa3 bg-light-gray">
+							// 	<Label label="Upload panoramas" />
+							// 	<input type="file" className="db mt3 mb2" />
+							// </div>
+						}
 
 						<p>Here are some examples:</p>
 
 						<div>
 							<div
-								className="h4 bg-near-white cover bg-center"
+								className="h4 bg-center cover bg-near-white mb2"
 								style={{
 									backgroundImage:
 										"url('https://node-db.netlify.com/panoramas/303.jpg')"
 								}}
 							/>
 							<div
-								className="h4 bg-near-white cover bg-center mt3"
+								className="h4 bg-center cover bg-near-white"
 								style={{
 									backgroundImage:
 										"url('https://node-db.netlify.com/panoramas/303a.jpg')"
@@ -104,6 +94,11 @@ export default function Panoramas({ match }) {
 						</p>
 					</div>
 				</div>
+				{
+					// <div className="h5 br2 overflow-hidden">
+					// 	<MapView />
+					// </div>
+				}
 			</div>
 		</div>
 	);
